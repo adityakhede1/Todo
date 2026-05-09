@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    <link rel="stylesheet" href="/todo.css">
+</head>
+
+<body>
+
+    <div  style="display : flex; justify-content: space-between; font-size: 15px; margin-left: 20px; margin-right: 20px; box-shadow: 4px 2px 4px 0 #2002025c;">
+        
+        <div style="margin: 15px;"> Todo app</div>
+
+        <div style="display: flex; justify-content: space-between;">
+
+            <span id="name" style="margin: 15px;"></span>
+
+            <button style="background: #f4f4f4; box-shadow: 1px 0.5px 1px; border-radius: 10px; width:60px; height: 25px; margin: 10px; padding: 5px;"
+            onclick="logout()"
+            >logout</button>
+
+        </div>
+
+    </div>
+
+    <div id="todoContainer" class="container">
+
+        <div class="top">
+            <input type="text" id="inputBox" placeholder="Enter todo">
+            <button class="addBtn" onclick="addTodo()">Add Todo</button>
+        </div>
+
+        <div id="todos"></div>
+
+    </div>
+
+<script>
+
+    function renderTodo(id,title)
+    {
+        const todo = document.createElement("div");
+        todo.className = "todo";
+        todo.id = id;
+
+        const text = document.createElement("span");
+        text.innerText = title;
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "Delete";
+        deleteBtn.className = "deleteBtn";
+
+        deleteBtn.onclick = function(){
+            deleteTodo(todo.id);
+        };
+
+        const editBtn = document.createElement("button");
+        editBtn.innerText = "Edit";
+        editBtn.className = "editBtn";
+
+        editBtn.onclick = function(){
+            editTodo(todo.id, text);
+        };
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        todo.appendChild(text);
+        todo.appendChild(actions);
+
+        document.getElementById("todoContainer").appendChild(todo);
+    }   
+
+    async function addTodo()
+    {
+        const input = document.getElementById("inputBox");
+        const value = input.value.trim();
+
+        if(value === "") return;
+
+        try {
+            const response = await axios.post("http://localhost:3000/todo/create",{title: value})
+            const data = response.data;
+
+            if (!data.success) {
+                alert(data.message);
+                return
+            }
+
+            renderTodo(data.todo._id, data.todo.title);
+            input.value = ""
+            
+        } catch (err) {
+            console.error(err),
+            alert("Something went wrong, Check the console")
+        }
+    }
+
+    async function deleteTodo(id) {
+        try {
+            const response = await axios.delete(`http://localhost:3000/todo/delete/${id}`);
+            
+            if (response.data.message === "Deleted successfully") {
+                const element = document.getElementById(id);
+                if (element) element.remove();
+            }
+        } catch (err) {
+            if (err.response?.status === 404) {
+                alert("Todo not found");
+            } else {
+                console.error("Failed to delete todo:", err);
+                alert("Something went wrong, check the console");
+            }
+        }
+    }    
+
+    async function editTodo(id, textElement)
+    {
+        const updatedText = prompt("Edit todo:", textElement.innerText);
+        
+        if (updatedText === null || updatedText.trim() === "") return;
+
+        try{
+            const response = await axios.patch(`http://localhost:3000/todo/edit/${id}`, {
+                title: updatedText.trim()
+            });
+            
+            // updating existing dom element
+            textElement.innerText = updatedText;
+        } catch(err){
+            if (err.response?.status === 404) {
+                alert("Todo not found");
+            } else {
+                console.error("Failed to edit todo:", err);
+                alert("Something went wrong, check the console");
+            }
+        }
+    }
+
+    async function logout()
+    {
+        await axios.post("http://localhost:3000/todo/logout");
+        window.location.href = "http://localhost:3000/user/signin";
+        alert("Logged out");
+    }
+
+    document.getElementById("inputBox")
+    .addEventListener("keypress", function(event){
+
+        if(event.key === "Enter"){
+            addTodo();
+        }
+
+    });
+
+    async function getfirstName() {
+        try {
+            const response = await axios.post("http://localhost:3000/todo/getName");
+            const data = response.data;
+            if (data.success) {
+                return data.firstName;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    let name;
+    document.addEventListener("DOMContentLoaded", async function () {
+        name = await getfirstName();
+        alert("Welcome " + name);
+        document.getElementById("name").innerText = name;
+    });
+
+    async function loadTodos() {
+        try {
+            const response = await axios.get("http://localhost:3000/todo/all");
+
+            const todos = response.data;
+
+            const allTodo = document.getElementById("todos");
+            allTodo.innerHTML = "";
+
+            todos.forEach(todo => {
+                renderTodo(todo._id, todo.title);
+            });
+
+        } catch (err) {
+            console.error("Failed to load todos:", err);
+            alert("Could not load todos, check the console");
+        }
+    }
+
+    // Call on page load
+    loadTodos();
+
+</script>
+
+</body>
+</html>

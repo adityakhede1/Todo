@@ -1,0 +1,74 @@
+body{
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0px;
+}
+
+.container{
+    margin: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 12px -9px 10px rgba(0, 0, 0, 0.1);
+}
+
+.top{
+    display: flex;
+    gap: 10px;
+}
+
+input{
+    flex: 1;
+    font-size: 16px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+button{
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.addBtn{
+    background: green;
+    color: white;
+}
+
+.todo{
+    margin-top: 10px;
+    background: #eeeeee;
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.todo span{
+    flex: 1;
+    word-break: break-word;
+    
+    overflow: auto;
+    overflow-wrap: break-word;
+    
+    padding:10px;
+}    
+
+.actions{
+    display: flex;
+    gap: 8px;
+}
+
+.deleteBtn{
+    background: crimson;
+    color: white;
+}
+
+.editBtn{
+    background: orange;
+    color: white;
+}

@@ -1,0 +1,98 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+/* Sign in css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
+
+.signin-box {
+  width: 350px;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signin-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.signin-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.signin-box button {
+  width: 100%;
+  padding: 10px;
+  background: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Sign up css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
+
+.signup-box {
+  width: 350px;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.signup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.signup-box button {
+  width: 100%;
+  padding: 10px;
+  background: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
