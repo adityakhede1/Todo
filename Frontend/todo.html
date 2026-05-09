@@ -84,7 +84,7 @@
         if(value === "") return;
 
         try {
-            const response = await axios.post("http://localhost:3000/todo/create",{title: value})
+            const response = await axios.post("https://todo-cdz9.onrender.com/todo/create",{title: value})
             const data = response.data;
 
             if (!data.success) {
@@ -103,7 +103,7 @@
 
     async function deleteTodo(id) {
         try {
-            const response = await axios.delete(`http://localhost:3000/todo/delete/${id}`);
+            const response = await axios.delete(`https://todo-cdz9.onrender.com/todo/delete/${id}`);
             
             if (response.data.message === "Deleted successfully") {
                 const element = document.getElementById(id);
@@ -126,7 +126,7 @@
         if (updatedText === null || updatedText.trim() === "") return;
 
         try{
-            const response = await axios.patch(`http://localhost:3000/todo/edit/${id}`, {
+            const response = await axios.patch(`https://todo-cdz9.onrender.com/todo/edit/${id}`, {
                 title: updatedText.trim()
             });
             
@@ -144,8 +144,8 @@
 
     async function logout()
     {
-        await axios.post("http://localhost:3000/todo/logout");
-        window.location.href = "http://localhost:3000/user/signin";
+        await axios.post("https://todo-cdz9.onrender.com/todo/logout");
+        window.location.href = "https://todo-cdz9.onrender.com/user/signin";
         alert("Logged out");
     }
 
@@ -160,7 +160,7 @@
 
     async function getfirstName() {
         try {
-            const response = await axios.post("http://localhost:3000/todo/getName");
+            const response = await axios.post("https://todo-cdz9.onrender.com/todo/getName");
             const data = response.data;
             if (data.success) {
                 return data.firstName;
@@ -179,7 +179,7 @@
 
     async function loadTodos() {
         try {
-            const response = await axios.get("http://localhost:3000/todo/all");
+            const response = await axios.get("https://todo-cdz9.onrender.com/todo/all");
 
             const todos = response.data;
 
